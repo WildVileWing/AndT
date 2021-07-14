@@ -10,13 +10,26 @@ public class FillingTests {
     @Autowired
     private ClientRepo clientRepo;
 
-    public void createClient(String address, long externalId, String name, String phone){
+    @Autowired
+    private CategoryRepo categoryRepo;
+
+    @Autowired
+    private ProductRepo productRepo;
+
+    @Autowired
+    private ClientOrderRepo clientOrderRepo;
+
+    @Autowired
+    private OrderProductRepo orderProductRepo;
+
+    public Client createClient(String address, long externalId, String name, String phone){
         Client client = new Client();
         client.setAddress(address);
         client.setExternalId(externalId);
         client.setFullName(name);
         client.setPhoneNumber(phone);
         clientRepo.save(client);
+        return client;
     }
 
     public Category createCategory(String name, Long parent){
@@ -27,31 +40,56 @@ public class FillingTests {
         return category;
     }
 
-    public void createProduct(String name, String description, double price,Category category){
+    public Product createProduct(String name, String description, double price,Category category){
         Product product = new Product();
         product.setCategory(category);
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
         productRepo.save(product);
+        return product;
     }
 
-    @Test
-    public void createTwoClients(){
-
-        createClient("address1",1,"name1","+3433");
-
-        createClient("address2",1,"name2","+3535");
-
+    public ClientOrder createClientOrder(Integer status, double total, Client client){
+        ClientOrder clientOrder = new ClientOrder();
+        clientOrder.setStatus(status);
+        clientOrder.setTotal(total);
+        clientOrder.setClient(client);
+        clientOrderRepo.save(clientOrder);
+        return clientOrder;
     }
-    @Autowired
-    private CategoryRepo categoryRepo;
 
-    @Autowired
-    private ProductRepo productRepo;
+    public OrderProduct createOrderProduct(Integer countProduct, ClientOrder clientOrder, Product product){
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setCountProduct(countProduct);
+        orderProduct.setClientOrder(clientOrder);
+        orderProduct.setProduct(product);
+        orderProductRepo.save(orderProduct);
+        return orderProduct;
+    }
+
 
     @Test
-    public void createCategoriesAndProducts(){
+    public void createTests(){
+
+        //Клиенты
+
+        Client client1 = createClient("2",2,"Andrey","+79780");
+        Client client2 = createClient("3",3,"Ilya","+79780");
+        Client client3 = createClient("4",4,"Roman","+79567");
+        Client client4 = createClient("5",5,"Anton","+7879495");
+
+        //Заказы
+
+        ClientOrder clientOrder1 = createClientOrder(0,200.00, client1);
+        ClientOrder clientOrder2 = createClientOrder(0,3000.00, client2);
+        ClientOrder clientOrder3 = createClientOrder(1,1000,client3);
+        ClientOrder clientOrder4 = createClientOrder(0,5000,client4);
+        ClientOrder clientOrder5 = createClientOrder(2,5000.00, client1);
+        ClientOrder clientOrder6 = createClientOrder(1,350.00, client2);
+        ClientOrder clientOrder7 = createClientOrder(0,500,client3);
+        ClientOrder clientOrder8 = createClientOrder(0,1000,client4);
+
         //Основные категории
 
         Category category1 = createCategory("Пицца",0L);
@@ -102,26 +140,26 @@ public class FillingTests {
 
         //Мясные пиццы
 
-        createProduct("Беконза","Томатный соус, моцарелла, чеддер, бекон, ветчина, шампиньоны, пармезан.",355,category1c1);
+        Product product1 = createProduct("Беконза","Томатный соус, моцарелла, чеддер, бекон, ветчина, шампиньоны, пармезан.",355,category1c1);
 
-        createProduct("Цезарь","Соус рэнч, цыплёнок, бекон, моцарелла, пармезан, черри, айсберг, соус цезарь.",375,category1c1);
+        Product product2 = createProduct("Цезарь","Соус рэнч, цыплёнок, бекон, моцарелла, пармезан, черри, айсберг, соус цезарь.",375,category1c1);
 
-        createProduct("Супер мясная","Томатный соус, моцарелла, пепперони, баварские колбаски, подкопчённый цыпленок, бекон, ветчина.",395,category1c1);
+        Product product3 = createProduct("Супер мясная","Томатный соус, моцарелла, пепперони, баварские колбаски, подкопчённый цыпленок, бекон, ветчина.",395,category1c1);
 
         //Сладкие пиццы
 
-        createProduct("M&M's","Сгущеное молоко, моцарелла, ананас, брусника, M&M's.",270,category1c2);
+        Product product4 = createProduct("M&M's","Сгущеное молоко, моцарелла, ананас, брусника, M&M's.",270,category1c2);
 
-        createProduct("Бананба","Соус рэнч, цыплёнок, бекон, моцарелла, пармезан, черри, айсберг, соус цезарь.",310,category1c2);
+        Product product5 = createProduct("Бананба","Соус рэнч, цыплёнок, бекон, моцарелла, пармезан, черри, айсберг, соус цезарь.",310,category1c2);
 
-        createProduct("Яблочко","Яблоки, карамельный соус",250,category1c2);
+        Product product6 = createProduct("Яблочко","Яблоки, карамельный соус",250,category1c2);
 
 
         //Острые пиццы
 
-        createProduct("Мексиканская","Томатный соус, острый соус, моцарелла, пепперони, цыплёнок, шампиньоны, томаты, острый халапеньо, лук.",375,category1c3);
+        Product product7 = createProduct("Мексиканская","Томатный соус, острый соус, моцарелла, пепперони, цыплёнок, шампиньоны, томаты, острый халапеньо, лук.",375,category1c3);
 
-        createProduct("Диабло","Шампиньоны, салями Пепперони, острые перчики Халапеньо,сыр Моцарелла, орегано, базилик, петрушка, пицца-соус.",595,category1c3);
+        Product product8 = createProduct("Диабло","Шампиньоны, салями Пепперони, острые перчики Халапеньо,сыр Моцарелла, орегано, базилик, петрушка, пицца-соус.",595,category1c3);
 
         createProduct("Тропикано","Куриная грудка, ананасы, острые перчики Халапеньо, сыр Моцарелла, орегано, базилик, пицца-соус.",545,category1c3);
 
@@ -135,6 +173,7 @@ public class FillingTests {
         createProduct("Черный дракон","Угорь, сыр Cremette, огурец, лосось, унаги соус, кунжут белый.",440,category2c1);
 
         //Запеченные роллы
+
 
         createProduct("Запеченная филадельфия","Лосось, сыр Cremette, огурец, сыр Чеддар, унаги соус, кунжут.",400,category2c2);
 
@@ -207,10 +246,23 @@ public class FillingTests {
 
         //Другие
 
-        createProduct("Морс из клюквы","Морс из клюквы 0.5л.",70,category4c3);
+        createProduct("Морс из клюквы","Морс из клюквы 0.5л.",70,category4c4);
 
-        createProduct("Морс из черной смородины","Морс из черной смородины 0.5л.",70,category4c3);
+        createProduct("Морс из черной смородины","Морс из черной смородины 0.5л.",70,category4c4);
 
-        createProduct("Морс из вишни","Морс из вишни 0.5л.",70,category4c3);
+        createProduct("Морс из вишни","Морс из вишни 0.5л.",70,category4c4);
+
+        //Заказ-товар
+
+        createOrderProduct(1,clientOrder1, product1);
+        createOrderProduct(1,clientOrder2, product2);
+        createOrderProduct(1,clientOrder3, product3);
+        createOrderProduct(1,clientOrder4, product4);
+        createOrderProduct(1,clientOrder5, product5);
+        createOrderProduct(1,clientOrder6, product6);
+        createOrderProduct(1,clientOrder7, product7);
+        createOrderProduct(1,clientOrder8, product8);
+
+
     }
 }

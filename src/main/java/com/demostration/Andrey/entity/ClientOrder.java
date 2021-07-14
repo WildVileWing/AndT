@@ -12,10 +12,18 @@ public class ClientOrder {
     private Integer status;
 
     @Column(nullable = false, length = 15, precision = 2)
-    private double total;
+    private Double total;
 
     @ManyToOne
     private Client client;
+
+    public Client getClient() { 
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public Long getId() {
         return id;
@@ -33,11 +41,11 @@ public class ClientOrder {
         this.status = status;
     }
 
-    public double getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 }
