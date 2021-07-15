@@ -1,6 +1,4 @@
 package com.demostration.Andrey.entity;
-
-
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +15,22 @@ public class OrderProduct {
 
     @ManyToOne
     private Product product;
+
+    public ClientOrder getClientOrder() {
+        return clientOrder;
+    }
+
+    public void setClientOrder(ClientOrder clientOrder) {
+        this.clientOrder = clientOrder;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public Long getId() {
         return id;
