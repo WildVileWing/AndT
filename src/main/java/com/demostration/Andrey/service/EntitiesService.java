@@ -32,6 +32,7 @@ public class EntitiesService {
         this.orderProductRepo = orderProductRepo;
     }
 
+
     public List <Client> getAllClients(){
         return clientRepo.findAll();
     }

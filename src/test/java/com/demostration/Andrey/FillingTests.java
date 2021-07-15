@@ -85,7 +85,7 @@ public class FillingTests {
         ClientOrder clientOrder2 = createClientOrder(0,3000.00, client2);
         ClientOrder clientOrder3 = createClientOrder(1,1000,client3);
         ClientOrder clientOrder4 = createClientOrder(0,5000,client4);
-        ClientOrder clientOrder5 = createClientOrder(2,5000.00, client1);
+        ClientOrder clientOrder5 = createClientOrder(1,5000.00, client1);
         ClientOrder clientOrder6 = createClientOrder(1,350.00, client2);
         ClientOrder clientOrder7 = createClientOrder(0,500,client3);
         ClientOrder clientOrder8 = createClientOrder(0,1000,client4);
