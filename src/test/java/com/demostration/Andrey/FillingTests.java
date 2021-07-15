@@ -70,7 +70,7 @@ public class FillingTests {
 
 
     @Test
-    public void createTests(){
+    public void createDataTests(){
 
         //Клиенты
 

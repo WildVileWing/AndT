@@ -16,8 +16,12 @@ import java.util.List;
 @RestController
 public class Controller {
 
-    @Autowired
-    public EntitiesService entitiesService;
+
+    public final EntitiesService entitiesService;
+
+    public Controller(EntitiesService entitiesService){
+        this.entitiesService = entitiesService;
+    }
 
     @RequestMapping(value = "/rest/getAllClients")
     public List<Client> getAllClients(){
@@ -84,9 +88,9 @@ public class Controller {
         return entitiesService.getClientProducts(id);
     }
 
-    @RequestMapping(value = "/rest/getTopPopular")
-    public List<Product> getTopPopular(){
-        return entitiesService.getTopPopular();
+    @RequestMapping(value = "/rest/getTopPopular", params = {"top"})
+    public List<Product> getTopPopular(Integer top){
+        return entitiesService.getTopPopular(top);
     }
 
 

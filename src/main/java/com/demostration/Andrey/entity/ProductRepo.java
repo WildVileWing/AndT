@@ -13,7 +13,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     String GET_TOP_POPULAR_QUERY = "select o.product from OrderProduct as o group by o.product.id order by sum(o.countProduct) desc";
 
     @Query(GET_TOP_POPULAR_QUERY)
-    List<Product> getTopPopular();
+    List<Product> getTopPopular(@Param("top") Integer top);
 
     String GET_CATEGORY_PRODUCTS = "from Product as p where p.category.id=:id";
 

@@ -8,33 +8,36 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class EntitiesService {
 
-    @Autowired
     public ClientRepo clientRepo;
 
-    @Autowired
     public ClientOrderRepo clientOrderRepo;
 
-    @Autowired
     public ProductRepo productRepo;
 
-    @Autowired
     public CategoryRepo categoryRepo;
 
-    @Autowired
     public OrderProductRepo orderProductRepo;
+
+    public EntitiesService(ClientRepo clientRepo, ClientOrderRepo clientOrderRepo,ProductRepo productRepo, CategoryRepo categoryRepo, OrderProductRepo orderProductRepo){
+        this.clientRepo = clientRepo;
+        this.clientOrderRepo = clientOrderRepo;
+        this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.orderProductRepo = orderProductRepo;
+    }
 
     public List <Client> getAllClients(){
         return clientRepo.findAll();
     }
 
     public Client getClientById(Long id){
-        Client client = clientRepo.findById(id).orElse(null);
-        return client;
+        return clientRepo.findById(id).orElse(null);
     }
 
     public Client getClientByName(String name){
@@ -89,8 +92,8 @@ public class EntitiesService {
         return productRepo.getClientProducts(id);
     }
 
-    public List<Product> getTopPopular(){
-        return productRepo.getTopPopular();
+    public List<Product> getTopPopular(Integer top){
+        return productRepo.getTopPopular(top).stream().limit(top).collect(Collectors.toList());
     }
 
 }
