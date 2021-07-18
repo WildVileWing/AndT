@@ -1,6 +1,10 @@
 package com.demostration.Andrey.service;
 
 import com.demostration.Andrey.entity.*;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,7 @@ public class EntitiesService {
         this.categoryRepo = categoryRepo;
         this.orderProductRepo = orderProductRepo;
     }
+
 
     public List <Client> getAllClients(){
         return clientRepo.findAll();
@@ -93,8 +98,71 @@ public class EntitiesService {
     }
 
     public List<Product> getTopPopular(Integer top){
-        return productRepo.getTopPopular(top).stream().limit(top).collect(Collectors.toList());
+        return productRepo.getTopPopular().stream().limit(top).collect(Collectors.toList());
     }
+
+    public List<Category> getCategoriesByParent(Long parent){
+        Category category = new Category();
+        category.setParent(parent);
+        return categoryRepo.findAll(Example.of(category));
+    }
+
+    public Client createNewClient(String fullName, String phoneNumber, String address, Long externalId){
+        Client client = new Client();
+        client.setFullName(fullName);
+        client.setPhoneNumber(phoneNumber);
+        client.setAddress(address);
+        client.setExternalId(externalId);
+        clientRepo.save(client);
+        return client;
+    }
+
+    public Client getClientByExternalId(Long externalId){
+        Client client = new Client();
+        client.setExternalId(externalId);
+        return clientRepo.findOne(Example.of(client)).orElse(null);
+    }
+
+    public ClientOrder createNewClientOrder(Integer status, Double total, Client client){
+        ClientOrder clientOrder = new ClientOrder();
+        clientOrder.setStatus(status);
+        clientOrder.setTotal(total);
+        clientOrder.setClient(client);
+        clientOrderRepo.save(clientOrder);
+        return clientOrder;
+    }
+
+    public ClientOrder getClientOrderByClient(Long externalId){
+        return clientOrderRepo.getClientOrderByClient(externalId);
+    }
+
+    public Category getCategoryById(Long id){
+        return categoryRepo.getCategoryById(id);
+    }
+
+    public OrderProduct createNewOrderProduct(ClientOrder clientOrder, Product product, Integer count){
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setClientOrder(clientOrder);
+        orderProduct.setProduct(product);
+        orderProduct.setCountProduct(count);
+        orderProductRepo.save(orderProduct);
+        return orderProduct;
+    }
+
+
+    public ClientOrder addPriceToClientOrder(ClientOrder clientOrder, Double price){
+        clientOrder.setTotal(clientOrder.getTotal() + price);
+        return clientOrder;
+    }
+
+    public OrderProduct getOrderProductByClientOrderAndProduct(ClientOrder clientOrder, Product product){
+        return orderProductRepo.getOrderProductByClientOrderAndProduct(clientOrder, product);
+    }
+
+    public List<OrderProduct>  getOrderProductsByClientOrder(ClientOrder clientOrder){
+        return orderProductRepo.getOrderProductsByClientOrder(clientOrder);
+    }
+
 
 }
 

@@ -85,7 +85,7 @@ public class FillingTests {
         ClientOrder clientOrder2 = createClientOrder(0,3000.00, client2);
         ClientOrder clientOrder3 = createClientOrder(1,1000,client3);
         ClientOrder clientOrder4 = createClientOrder(0,5000,client4);
-        ClientOrder clientOrder5 = createClientOrder(2,5000.00, client1);
+        ClientOrder clientOrder5 = createClientOrder(1,5000.00, client1);
         ClientOrder clientOrder6 = createClientOrder(1,350.00, client2);
         ClientOrder clientOrder7 = createClientOrder(0,500,client3);
         ClientOrder clientOrder8 = createClientOrder(0,1000,client4);
@@ -252,16 +252,7 @@ public class FillingTests {
 
         createProduct("Морс из вишни","Морс из вишни 0.5л.",70,category4c4);
 
-        //Заказ-товар
 
-        createOrderProduct(1,clientOrder1, product1);
-        createOrderProduct(1,clientOrder2, product2);
-        createOrderProduct(1,clientOrder3, product3);
-        createOrderProduct(1,clientOrder4, product4);
-        createOrderProduct(1,clientOrder5, product5);
-        createOrderProduct(1,clientOrder6, product6);
-        createOrderProduct(1,clientOrder7, product7);
-        createOrderProduct(1,clientOrder8, product8);
 
 
     }

@@ -14,4 +14,11 @@ public interface ClientOrderRepo extends JpaRepository<ClientOrder, Long> {
 
     @Query(GET_CLIENT_ORDER_BY_NAME)
     List<ClientOrder> getClientOrderByName(@Param("name") String name );
+
+
+    String GET_CLIENT_ORDER_BY_CLIENT = "from ClientOrder as co where co.client.externalId=:externalId";
+
+    @Query(GET_CLIENT_ORDER_BY_CLIENT)
+    ClientOrder getClientOrderByClient(@Param("externalId") Long externalId);
+
 }

@@ -1,11 +1,11 @@
 package com.demostration.Andrey.rest;
 
 
-import com.demostration.Andrey.entity.Category;
-import com.demostration.Andrey.entity.Client;
-import com.demostration.Andrey.entity.ClientOrder;
-import com.demostration.Andrey.entity.Product;
+import com.demostration.Andrey.entity.*;
 import com.demostration.Andrey.service.EntitiesService;
+import com.demostration.Andrey.service.TelegramService;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +19,11 @@ public class Controller {
 
     public final EntitiesService entitiesService;
 
-    public Controller(EntitiesService entitiesService){
+    private final TelegramService telegramService;
+
+    public Controller(EntitiesService entitiesService, TelegramService telegramService){
         this.entitiesService = entitiesService;
+        this.telegramService = telegramService;
     }
 
     @RequestMapping(value = "/rest/getAllClients")
@@ -93,9 +96,68 @@ public class Controller {
         return entitiesService.getTopPopular(top);
     }
 
+    @RequestMapping(value = "/rest/getCategoriesByParent", params = {"parent"})
+    public List<Category> getCategoriesByParent(Long parent){
+        return entitiesService.getCategoriesByParent(parent);
+    }
 
+    @RequestMapping(value = "/rest/createNewClient", params = {"fullName, phoneNumber, address, externalId"})
+    public Client createNewClient(String fullName, String phoneNumber, String address, Long externalId){
+        return entitiesService.createNewClient(fullName, phoneNumber, address, externalId);
+    }
 
+    @RequestMapping(value = "/rest/getClientByExternalId", params = {"externalId"})
+    public Client getClientByExternalId(Long externalId){
+        return entitiesService.getClientByExternalId(externalId);
+    }
 
+    @RequestMapping(value = "/rest/createNewClientOrder", params = {"status, total, client"})
+    public ClientOrder createNewClientOrder(Integer status, Double total, Client client){
+        return entitiesService.createNewClientOrder(status, total, client);
+    }
 
+    @RequestMapping(value = "/rest/getClientOrderByClient", params = {"externalId"})
+    public ClientOrder getClientOrderByClient(Long externalId){
+        return entitiesService.getClientOrderByClient(externalId);
+    }
 
+    @RequestMapping(value = "/rest/getCategoryById", params = {"id"})
+    public Category getCategoryById(Long id){
+        return entitiesService.getCategoryById(id);
+    }
+
+    @RequestMapping(value = "/rest/getReplyKeyboardMarkupMenu", params = {"id"})
+    public ReplyKeyboardMarkup getReplyKeyboardMarkupMenu(Long id){
+        return telegramService.getReplyKeyboardMarkupMenu(id);
+    }
+
+    @RequestMapping(value = "/rest/getReplyKeyboardMarkup", params = {"id"})
+    public ReplyKeyboardMarkup getReplyKeyboardMarkup(Long id){
+        return telegramService.getReplyKeyboardMarkup(id);
+    }
+
+    @RequestMapping(value = "/rest/getInlineKeyboardMarkup", params = {"id"})
+    public InlineKeyboardMarkup getInlineKeyboardMarkup(Long id){
+        return telegramService.getInlineKeyboardMarkup(id);
+    }
+
+    @RequestMapping(value = "/rest/createNewOrderProduct", params = {"clientOrder, product, count"})
+    public OrderProduct createNewOrderProduct(ClientOrder clientOrder, Product product, Integer count){
+        return entitiesService.createNewOrderProduct(clientOrder, product, count);
+    }
+
+    @RequestMapping(value = "/rest/addPriceToClientOrder", params = {"clientOrder, price"})
+    public ClientOrder addPriceToClientOrder(ClientOrder clientOrder, Double price){
+        return entitiesService.addPriceToClientOrder(clientOrder, price);
+    }
+
+    @RequestMapping(value = "/rest/getOrderProductByClientOrderAndProduct", params = {"clientOrder, product"})
+    public OrderProduct getOrderProductByClientOrderAndProduct(ClientOrder clientOrder, Product product){
+        return entitiesService.getOrderProductByClientOrderAndProduct(clientOrder, product);
+    }
+
+    @RequestMapping(value = "/rest/getOrderProductsByClientOrder", params = {"clientOrder"})
+    public List <OrderProduct> getOrderProductsByClientOrder(ClientOrder clientOrder){
+        return entitiesService.getOrderProductsByClientOrder(clientOrder);
+    }
 }
