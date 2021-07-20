@@ -121,19 +121,16 @@ public class Controller {
         return entitiesService.getClientOrderByClient(externalId);
     }
 
-    @RequestMapping(value = "/rest/getCategoryById", params = {"id"})
-    public Category getCategoryById(Long id){
-        return entitiesService.getCategoryById(id);
-    }
+
 
     @RequestMapping(value = "/rest/getReplyKeyboardMarkupMenu", params = {"id"})
     public ReplyKeyboardMarkup getReplyKeyboardMarkupMenu(Long id){
         return telegramService.getReplyKeyboardMarkupMenu(id);
     }
 
-    @RequestMapping(value = "/rest/getReplyKeyboardMarkup", params = {"id"})
-    public ReplyKeyboardMarkup getReplyKeyboardMarkup(Long id){
-        return telegramService.getReplyKeyboardMarkup(id);
+    @RequestMapping(value = "/rest/getCategoryAndProductMarkup", params = {"id"})
+    public ReplyKeyboardMarkup getCategoryAndProductMarkup(Long id){
+        return telegramService.getCategoryAndProductMarkup(id);
     }
 
     @RequestMapping(value = "/rest/getInlineKeyboardMarkup", params = {"id"})
@@ -146,18 +143,11 @@ public class Controller {
         return entitiesService.createNewOrderProduct(clientOrder, product, count);
     }
 
-    @RequestMapping(value = "/rest/addPriceToClientOrder", params = {"clientOrder, price"})
-    public ClientOrder addPriceToClientOrder(ClientOrder clientOrder, Double price){
-        return entitiesService.addPriceToClientOrder(clientOrder, price);
+    @RequestMapping(value = "/rest/setPriceToClientOrder", params = {"clientOrder, price"})
+    public ClientOrder setPriceToClientOrder(ClientOrder clientOrder, Double price){
+        return entitiesService.setPriceToClientOrder(clientOrder, price);
     }
 
-    @RequestMapping(value = "/rest/getOrderProductByClientOrderAndProduct", params = {"clientOrder, product"})
-    public OrderProduct getOrderProductByClientOrderAndProduct(ClientOrder clientOrder, Product product){
-        return entitiesService.getOrderProductByClientOrderAndProduct(clientOrder, product);
-    }
 
-    @RequestMapping(value = "/rest/getOrderProductsByClientOrder", params = {"clientOrder"})
-    public List <OrderProduct> getOrderProductsByClientOrder(ClientOrder clientOrder){
-        return entitiesService.getOrderProductsByClientOrder(clientOrder);
-    }
+
 }

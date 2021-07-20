@@ -9,13 +9,13 @@ import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "orderProduct", path = "orderProduct")
 public interface OrderProductRepo extends  JpaRepository<OrderProduct, Long> {
-    String GET_ORDER_PRODUCT_BY_CLIENT_ORDER_AND_PRODUCT = "select op from OrderProduct as op where op.clientOrder = clientOrder and op.product = product";
+    String GET_ORDER_PRODUCT_BY_CLIENT_ORDER_AND_PRODUCT = "from OrderProduct as op where op.clientOrder.id = clientOrderId and op.product.id = productId";
 
     @Query(GET_ORDER_PRODUCT_BY_CLIENT_ORDER_AND_PRODUCT)
-    OrderProduct getOrderProductByClientOrderAndProduct(@Param("clientOrder")ClientOrder clientOrder, @Param("product")Product product);
+    OrderProduct getOrderProductByClientOrderAndProduct(@Param("clientOrderId")Long clientOrderId, @Param("productId")Long productId);
 
-    String GET_ORDER_PRODUCTS_BY_CLIENT_ORDER= "select op from OrderProduct as op where op.clientOrder.id = clientOrder.id";
+    String GET_ORDER_PRODUCTS_BY_CLIENT_ORDER= "select o from OrderProduct as o where o.clientOrder = ?1";
 
     @Query(GET_ORDER_PRODUCTS_BY_CLIENT_ORDER)
-    List<OrderProduct> getOrderProductsByClientOrder(@Param("clientOrder")ClientOrder clientOrder);
+    List<OrderProduct> getOrderProductsByClientOrder(ClientOrder clientOrder);
 }

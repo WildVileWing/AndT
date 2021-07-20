@@ -136,9 +136,7 @@ public class EntitiesService {
         return clientOrderRepo.getClientOrderByClient(externalId);
     }
 
-    public Category getCategoryById(Long id){
-        return categoryRepo.getCategoryById(id);
-    }
+
 
     public OrderProduct createNewOrderProduct(ClientOrder clientOrder, Product product, Integer count){
         OrderProduct orderProduct = new OrderProduct();
@@ -149,19 +147,23 @@ public class EntitiesService {
         return orderProduct;
     }
 
-
-    public ClientOrder addPriceToClientOrder(ClientOrder clientOrder, Double price){
+    public ClientOrder setPriceToClientOrder(ClientOrder clientOrder, Double price){
         clientOrder.setTotal(clientOrder.getTotal() + price);
         return clientOrder;
     }
 
-    public OrderProduct getOrderProductByClientOrderAndProduct(ClientOrder clientOrder, Product product){
-        return orderProductRepo.getOrderProductByClientOrderAndProduct(clientOrder, product);
+    public OrderProduct getOrderProductByClientOrderAndProduct(Long clientOrderId, Long productId){
+        return orderProductRepo.getOrderProductByClientOrderAndProduct(clientOrderId, productId);
     }
 
     public List<OrderProduct>  getOrderProductsByClientOrder(ClientOrder clientOrder){
         return orderProductRepo.getOrderProductsByClientOrder(clientOrder);
     }
+
+    public ClientOrder saveClientOrderStatus(ClientOrder clientOrder){
+        return clientOrderRepo.save(clientOrder);
+    }
+
 
 
 }

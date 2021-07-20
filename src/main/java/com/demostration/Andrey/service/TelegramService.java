@@ -14,28 +14,13 @@ import java.util.stream.Collectors;
 @Service
 public class TelegramService {
 
-    public ClientRepo clientRepo;
-
-    public ClientOrderRepo clientOrderRepo;
-
-    public ProductRepo productRepo;
-
-    public CategoryRepo categoryRepo;
-
-    public OrderProductRepo orderProductRepo;
-
     public EntitiesService entitiesService;
 
-    public TelegramService(ClientRepo clientRepo, ClientOrderRepo clientOrderRepo, ProductRepo productRepo, CategoryRepo categoryRepo, OrderProductRepo orderProductRepo, EntitiesService entitiesService){
-        this.clientRepo = clientRepo;
-        this.clientOrderRepo = clientOrderRepo;
-        this.productRepo = productRepo;
-        this.categoryRepo = categoryRepo;
-        this.orderProductRepo = orderProductRepo;
+    public TelegramService(EntitiesService entitiesService){
         this.entitiesService = entitiesService;
     }
 
-    public ReplyKeyboardMarkup getReplyKeyboardMarkup(Long id){
+    public ReplyKeyboardMarkup getCategoryAndProductMarkup(Long id){
         List<KeyboardButton> categories = entitiesService.getCategoriesByParent(id)
                 .stream()
                 .map(category -> new KeyboardButton(category.getName())).collect(Collectors.toList());
