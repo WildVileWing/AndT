@@ -252,16 +252,7 @@ public class FillingTests {
 
         createProduct("Морс из вишни","Морс из вишни 0.5л.",70,category4c4);
 
-        //Заказ-товар
 
-        createOrderProduct(1,clientOrder1, product1);
-        createOrderProduct(1,clientOrder2, product2);
-        createOrderProduct(1,clientOrder3, product3);
-        createOrderProduct(1,clientOrder4, product4);
-        createOrderProduct(1,clientOrder5, product5);
-        createOrderProduct(1,clientOrder6, product6);
-        createOrderProduct(1,clientOrder7, product7);
-        createOrderProduct(1,clientOrder8, product8);
 
 
     }
